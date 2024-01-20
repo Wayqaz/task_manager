@@ -1,16 +1,25 @@
 package tasks;
 
-import static main.Main.manager;
+import static main.Main.taskManager;
 
 public class Subtask extends Task {
-    private int masterEpic;
+    private Epic masterEpic;
 
-    public Subtask(String nameTask, String descriptionTask, int masterEpic) {
+    public Subtask(String nameTask, String descriptionTask, Epic masterEpic) {
         super();
         setParametrsCostructor(nameTask, descriptionTask);
         this.masterEpic = masterEpic;
-        manager.updateCollectionSubtask(this.hashCode(), this);
-        manager.getEpic(masterEpic).addCollectionSubtask(this);
+        taskManager.updateCollectionElement(this);
+        masterEpic.addCollectionSubtask(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Подзадача[" +
+                "имя подзадачи: '" + nameTask + '\'' +
+                ", описание подзадачи: '" + descriptionTask + '\'' +
+                ", статус: " + status +
+                ']';
     }
 
 }

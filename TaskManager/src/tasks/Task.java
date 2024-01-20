@@ -2,12 +2,12 @@ package tasks;
 
 import java.util.Objects;
 
-import static main.Main.manager;
+import static main.Main.taskManager;
 
 public class Task {
     protected String nameTask;
     protected String descriptionTask;
-    protected String status;
+    protected Status status;
 
     public Task() {
         //заглушка для редактирования конструкторов подклвссов
@@ -18,7 +18,7 @@ public class Task {
 
     public Task(String nameTask, String descriptionTask) {
         setParametrsCostructor(nameTask, descriptionTask);
-        manager.updateCollectionTask(this.hashCode(), this);
+        taskManager.updateCollectionElement(this);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class Task {
 
     @Override
     public String toString() {
-        return "tasks.Task{" +
-                "nameTask='" + nameTask + '\'' +
-                ", descriptionTask='" + descriptionTask + '\'' +
-                ", status=" + status +
-                '}';
+        return "Задача[" +
+                "имя задачи: '" + nameTask + '\'' +
+                ", описание задачи: '" + descriptionTask + '\'' +
+                ", статус: " + status +
+                ']';
     }
 
     public String getNameTask() {
@@ -68,21 +68,17 @@ public class Task {
         }
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        if (status.equals("NEW") || status.equals("IN_PROGRESS") || status.equals("DONE")) {
-            this.status = status;
-        } else {
-            throw new RuntimeException("Статус задан некорректно");
-        }
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void setParametrsCostructor(String nameTask, String descriptionTask) {
         setNameTask(nameTask);
         setDescriptionTask(descriptionTask);
-        status = "NEW";
+        status = Status.NEW;
     }
 }
