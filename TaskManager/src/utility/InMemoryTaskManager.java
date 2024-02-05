@@ -9,9 +9,9 @@ import java.util.HashMap;
 import static main.Main.historyManager;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HashMap<Integer, Task> collectionTask = new HashMap<>();
-    private HashMap<Integer, Subtask> collectionSubtask = new HashMap<>();
-    private HashMap<Integer, Epic> collectionEpic = new HashMap<>();
+    private final HashMap<Integer, Task> collectionTask = new HashMap<>();
+    private final HashMap<Integer, Subtask> collectionSubtask = new HashMap<>();
+    private final HashMap<Integer, Epic> collectionEpic = new HashMap<>();
 
     @Override
     public <E extends Task> void deleteCollectionElement(E element) {
@@ -50,17 +50,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    /*public void updateCollectionTask(int hash, Task task) { //добавление или изменение задачи
-        collectionTask.put(hash, task);
-    }
-
-    public void updateCollectionSubtask(int hash, Subtask subtask) {
-        collectionSubtask.put(hash, subtask);
-    }
-
-    public void updateCollectionEpic(int hash, Epic epic) {
-        collectionEpic.put(hash, epic);
-    }*/
     @Override
     public void cleanCollection(String type) {    //очистка списка всех задач
         switch (type) {

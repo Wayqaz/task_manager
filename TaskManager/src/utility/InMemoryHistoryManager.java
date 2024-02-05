@@ -1,22 +1,25 @@
 package utility;
 
 import tasks.Task;
+import utility.DoublyLinkedList.DoublyLinkedList;
 
-import java.util.LinkedList;
+import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private LinkedList<Task> history = new LinkedList<>();
+    private DoublyLinkedList<Task> history = new DoublyLinkedList<>();
 
     @Override
     public void add(Task task) {
-        history.add(task);
-        if (history.size() > 10) {
-            history.remove(0);
-        }
+        history.linkLast(task);
     }
 
     @Override
-    public LinkedList<Task> getHistory() {
-        return history;
+    public List<Task> getHistory() {
+        return history.getTasks();
+    }
+
+    @Override
+    public void remove(int hashCode) {
+        history.removeNode(history.getAccordance().get(hashCode));
     }
 }
