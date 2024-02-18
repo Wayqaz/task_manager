@@ -19,7 +19,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void remove(int hashCode) {
-        history.removeNode(history.getAccordance().get(hashCode));
+    public void remove(int id) {
+        history.removeNode(history.getAccordance().get(id));
     }
 }

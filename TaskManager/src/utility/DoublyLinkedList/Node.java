@@ -1,13 +1,15 @@
 package utility.DoublyLinkedList;
 
+import tasks.Task;
+
 import java.util.Objects;
 
 public class Node<T> {
-    private T data;
+    private final Task data;
     private Node<T> next;
     private Node<T> previous;
 
-    public Node(T data, Node<T> previous, Node<T> next) {
+    public Node(Task data, Node<T> previous, Node<T> next) {
         this.data = data;
         this.previous = previous;
         this.next = next;
@@ -42,7 +44,7 @@ public class Node<T> {
         this.previous = previous;
     }
 
-    public T getData() {
+    public Task getData() {
         return data;
     }
 }

@@ -1,16 +1,17 @@
 package tasks;
 
 import java.util.ArrayList;
-
-import static main.Main.taskManager;
+import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<Subtask> collectionSubtask = new ArrayList<>();
+    private final ArrayList<Subtask> collectionSubtask = new ArrayList<>();
 
     public Epic(String nameTask, String descriptionTask) {
-        super();
-        setParametrsCostructor(nameTask, descriptionTask);
-        taskManager.updateCollectionElement(this);
+        super(nameTask, descriptionTask);
+    }
+
+    public Epic(int id, String nameTask, Status status, String descriptionTask) {
+        super(id, nameTask, status, descriptionTask);
     }
 
     @Override
@@ -27,11 +28,16 @@ public class Epic extends Task {
     }
 
     @Override
-    public String toString() {
-        return "Эпик[" +
-                "имя эпика: '" + nameTask + '\'' +
-                ", описание эпика: '" + descriptionTask + '\'' +
-                ", статус: " + status +
-                ']';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Epic epic = (Epic) o;
+        return Objects.equals(collectionSubtask, epic.collectionSubtask);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), collectionSubtask);
     }
 }

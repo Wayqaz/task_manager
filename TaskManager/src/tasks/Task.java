@@ -1,5 +1,6 @@
 package tasks;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static main.Main.taskManager;
@@ -8,18 +9,24 @@ public class Task {
     protected String nameTask;
     protected String descriptionTask;
     protected Status status;
-
-    public Task() {
-        //заглушка для редактирования конструкторов подклвссов
-        if (getClass() == Task.class) {
-            throw new RuntimeException("Для создания задачи необходимо ввести ее название и описание");
-        }
-    }
+    protected Integer id;
 
     public Task(String nameTask, String descriptionTask) {
-        setParametrsCostructor(nameTask, descriptionTask);
+        setNameTask(nameTask);
+        setDescriptionTask(descriptionTask);
+        status = Status.NEW;
+        setId();
         taskManager.updateCollectionElement(this);
     }
+
+    public Task(int id, String nameTask, Status status, String descriptionTask) {
+        this.id = id;
+        this.nameTask = nameTask;
+        this.status = status;
+        this.descriptionTask = descriptionTask;
+        taskManager.updateCollectionElement(this);
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -37,11 +44,15 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Задача[" +
-                "имя задачи: '" + nameTask + '\'' +
-                ", описание задачи: '" + descriptionTask + '\'' +
-                ", статус: " + status +
-                ']';
+        TypeTask taskClass = null;
+        if (getClass().equals(Task.class)) {
+            taskClass = TypeTask.TASK;
+        } else if (getClass().equals(Subtask.class)) {
+            taskClass = TypeTask.SUBTASK;
+        } else if (getClass().equals(Epic.class)) {
+            taskClass = TypeTask.EPIC;
+        }
+        return String.format("%d,%S,%s,%S,%s", getId(), taskClass, nameTask, status, descriptionTask);
     }
 
     public String getNameTask() {
@@ -49,7 +60,7 @@ public class Task {
     }
 
     public void setNameTask(String nameTask) {
-        if (nameTask != null && nameTask != "") {
+        if (nameTask != null && !nameTask.equals("")) {
             this.nameTask = nameTask;
         } else {
             throw new RuntimeException("Имя задачи введено некорректно");
@@ -61,7 +72,7 @@ public class Task {
     }
 
     public void setDescriptionTask(String descriptionTask) {
-        if (descriptionTask != null && nameTask != "") {
+        if (descriptionTask != null && !nameTask.equals("")) {
             this.descriptionTask = descriptionTask;
         } else {
             throw new RuntimeException("Описание задачи введено некорректно");
@@ -76,9 +87,30 @@ public class Task {
         this.status = status;
     }
 
-    public void setParametrsCostructor(String nameTask, String descriptionTask) {
-        setNameTask(nameTask);
-        setDescriptionTask(descriptionTask);
-        status = Status.NEW;
+    public int getId() {
+        return id;
+    }
+
+    protected void setId() {
+        if (Objects.isNull(id)) {
+            ArrayList<Integer> listId = new ArrayList<>();
+            int id = 1;
+            for (Task value : taskManager.getCollectionTask().values()) {
+                listId.add(value.getId());
+            }
+            for (Subtask value : taskManager.getCollectionSubtask().values()) {
+                listId.add(value.getId());
+            }
+            for (Epic value : taskManager.getCollectionEpic().values()) {
+                listId.add(value.getId());
+            }
+            while (true) {
+                if (!listId.contains(id)) {
+                    this.id = id;
+                    break;
+                }
+                id++;
+            }
+        }
     }
 }
